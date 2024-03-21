@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy to S3 (Boolha)
-        run: aws s3 cp ./bolha-devops/index.html s3://boolha/index.html --endpoint-url=https://s3.amazonaws.com
+        run:  aws s3 cp index.html s3://boolha/index.html --endpoint-url=https://s3.amazonaws.com
 
       - name: Deploy to S3
         run: |
