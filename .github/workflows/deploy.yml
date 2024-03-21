@@ -21,9 +21,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Deploy to S3 (Boolha)
-        run: aws s3 cp bolha-devops/index.html s3://boolha/index.html --endpoint-url=https://s3.amazonaws.com
-
       - name: Deploy to S3 (Sync)
         run: aws s3 sync ./bolha-devops s3://boolha
 
@@ -37,9 +34,3 @@ jobs:
           script: |
             cd /path/to/your/project
             git pull origin main
-
-      - name: Deploy to S3 (Boolha again)
-        run: aws s3 cp ./bolha-devops/index.html s3://boolha/index.html --endpoint-url=https://s3.amazonaws.com
-
-      - name: Retry Deployment to S3
-        run: aws s3 sync ./bolha-devops s3://boolha
