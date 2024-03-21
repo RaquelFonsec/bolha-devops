@@ -18,9 +18,15 @@ jobs:
           echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
 
+      - name: Create S3 Bucket
+        run: aws s3 mb s3://boolha --region us-east-1
 
-      - name: Deploy to S3 (Sync)
-        run: aws s3 sync . s3://boolha --region us-east-1
+      - name: Configure S3 Bucket for Static Website Hosting
+        run: |
+          aws s3 website s3://boolha --index-document index.html
+
+      - name: Upload Website to S3
+        run: aws s3 sync . s3://boolha --delete
 
       - name: SSH into EC2 Instance and Deploy
         uses: appleboy/ssh-action@master
@@ -29,9 +35,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-
             git pull origin main
-            
             sudo apt-get update
             sudo apt-get install nginx -y
             sudo systemctl restart nginx
