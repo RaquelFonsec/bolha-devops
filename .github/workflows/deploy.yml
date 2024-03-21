@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
       - name: Configure AWS CLI
         run: |
           sudo apt-get update
@@ -21,19 +18,8 @@ jobs:
           aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
           aws configure set default.region "${{ secrets.AWS_REGION }}"
 
-      - name: Deploy to S3 (Sync)
-        run: aws s3 sync ./bolha-devops s3://boolha
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      - name: SSH into EC2 Instance and Deployment
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: ${{ secrets.EC2_PORT }}
-          script: |
-            cd /path/to/your/project
-            git pull origin main
-            npm install  
-            npm run build  
-            systemctl restart nginx  
+      - name: Deploy to S3 (Sync)
+        run: aws s3 sync ./bolha-devops s3://boolha --endpoint-url=https://s3.amazonaws.com
