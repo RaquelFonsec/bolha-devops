@@ -24,8 +24,6 @@ jobs:
         aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
         aws configure set default.region "${{ secrets.AWS_REGION }}"
       
-      - name: Deploy to S3 (Bolha)
-  run: aws s3 cp ./bolha-devops/index.html s3://bolha/index.html
 
 - name: Deploy to S3 (Boolha)
   run: aws s3 cp ./bolha-devops/index.html s3://boolha/index.html
