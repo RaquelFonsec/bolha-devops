@@ -1,34 +1,27 @@
-name: Deploy Static Site
-
-on:
-  push:
-    branches:
-      - main
-
+nome: Implantação no S3 (Sincronização)
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout do Repositório
+        usa: actions/checkout@v2
 
-      - name: Set up AWS Credentials
+      - name: Configurar Credenciais da AWS
         run: |
           echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
 
-      - name: Create S3 Bucket
-        run: aws s3 mb s3://boolha --region us-east-1
+      - name: Implantar no S3 (Sincronizar)
+        run: aws s3 sync . s3://boolha --region us-east-1
 
-      - name: Configure S3 Bucket for Static Website Hosting
+      - name: Configurar Bucket S3 para Hospedagem de Site Estático
         run: |
           aws s3 website s3://boolha --index-document index.html
 
-      - name: Upload Website to S3
+      - name: Carregar Site para S3
         run: aws s3 sync . s3://boolha --delete
 
-      - name: SSH into EC2 Instance and Deploy
+      - name: SSH na Instância EC2 e Implantação
         uses: appleboy/ssh-action@master
         with:
           host: 18.234.225.100
