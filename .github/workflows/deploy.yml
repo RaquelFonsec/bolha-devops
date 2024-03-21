@@ -21,3 +21,20 @@ jobs:
       - name: Deploy to S3 (Sync)
         run: |
           aws s3 sync . s3://boolha --region us-east-1
+
+      - name: SSH into EC2 Instance and Deploy
+  uses: appleboy/ssh-action@master
+  with:
+    host: 18.234.225.100
+    username: ${{ secrets.EC2_USERNAME }}
+    key: ${{ secrets.EC2_SSH_KEY }}
+    script: |
+      
+      cd /path/to/your/files/on/ec2
+      git pull origin main
+
+      
+      sudo apt-get update
+      sudo apt-get install nginx
+
+      sudo systemctl restart nginx
