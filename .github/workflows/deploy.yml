@@ -44,4 +44,3 @@ jobs:
 
       - name: Retry Deployment to S3
         run: aws s3 sync ./bolha-devops s3://boolha
-
