@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy Static Site
 
 on:
   push:
@@ -24,5 +24,17 @@ jobs:
           aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
           aws configure set default.region "${{ secrets.AWS_REGION }}"
 
-      - name: Deploy to S3 (Boolha)
-        run: aws s3 cp ./bolha-devops/index.html s3://boolha/index.html --endpoint-url=https://s3.amazonaws.com
+      - name: Deploy to S3
+        run: |
+          aws s3 sync ./bolha-devops s3://boolha
+
+      - name: SSH into EC2 instance and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            cd /path/to/your/project
+            git pull origin main
