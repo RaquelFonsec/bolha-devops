@@ -24,9 +24,19 @@ jobs:
       - name: SSH into EC2 Instance and Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: 3.82.21.208
+          host: 3.82.21.208  
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}  
           script: |
-          cd /bolha-devops/.github/workflows
+            cd /bolha-devops/.github/workflows
+            git pull origin main
+
+      - name: SSH into Host and Execute Additional Commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: 34.227.79.209  
+          username: ubuntu
+          key: ${{ secrets.HOST_SSH_KEY }}  
+          script: |
+            cd /bolha-devops/.github/workflows
             git pull origin main
