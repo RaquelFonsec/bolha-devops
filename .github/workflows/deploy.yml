@@ -24,7 +24,7 @@ jobs:
             echo "Conectado ao Bastion Host"
 
             # Executa o comando SSH na instância EC2 a partir do Bastion Host para realizar o git pull
-            ssh -i ~/.ssh/devop.pem ubuntu@3.82.21.208 'cd /bolha-devops/.github/workflows && git pull origin main'
+            ssh -i ~/.ssh/devop.pem ubuntu@34.227.79.209 'cd /bolha-devops/.github/workflows && git pull origin main'
 
 
              
