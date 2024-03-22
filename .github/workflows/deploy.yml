@@ -23,7 +23,7 @@ jobs:
             # Conecta-se ao Bastion Host
             echo "Conectado ao Bastion Host"
 
-            ssh -i /home/raquel/Downloads/devop.pem ubuntu@3.82.21.208 'cd /bolha-devops/.github/workflows && git pull origin main'
+             ssh -i ~/.ssh/devop.pem ubuntu@3.82.21.208'cd /bolha-devops/.github/workflows && git pull origin main'
 
 
 
