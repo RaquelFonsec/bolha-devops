@@ -14,18 +14,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: SSH no Bastion Host e na Instância EC2 e Implantação
-  uses: appleboy/ssh-action@master
-  with:
-    host: ${{ secrets.BASTION_HOST_IP }}
-    username: ubuntu
-    key: ${{ secrets.BASTION_HOST_SSH_KEY }}
-    script: |
-      # Conecta-se ao Bastion Host
-      echo "Conectado ao Bastion Host"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.BASTION_HOST_IP }}
+          username: ubuntu
+          key: ${{ secrets.BASTION_HOST_SSH_KEY }}
+          script: |
+            # Conecta-se ao Bastion Host
+            echo "Conectado ao Bastion Host"
 
-      # Conecta-se à Instância EC2 a partir do Bastion Host e realiza a implantação
-      ssh -i /path/to/private/key ubuntu@3.82.21.208 'cd /bolha-devops/.github/workflows && git pull origin main'
-
+            
+            ssh -i ~/Downloads/devop.pem ubuntu@3.82.21.208 'cd /bolha-devops/.github/workflows && git pull origin main'
 
 
              
