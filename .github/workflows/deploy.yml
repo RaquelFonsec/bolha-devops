@@ -1,4 +1,4 @@
-name: Deploy on Main Branch Change
+name: Implantar site estático
 
 on:
   push:
@@ -10,28 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout do Repositório
         uses: actions/checkout@v2
 
-      - name: Set up AWS Credentials
-        run: |
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
-
-      - name: Deploy to S3 (Sync)
-        run: aws s3 sync . s3://boolha --region us-east-1
-
-      - name: SSH into EC2 Instance and Deploy
+      - name: SSH no Bastion Host e na Instância EC2 e Implantação
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.BASTION_HOST_IP }}  
-          username: ubuntu  
-          key: ${{ secrets.BASTION_HOST_SSH_KEY }}  
-          via: 3.82.21.208  
+          host: ${{ secrets.BASTION_HOST_IP }}
+          username: ubuntu
+          key: ${{ secrets.BASTION_HOST_SSH_KEY }}
           script: |
-        
-    ssh -i ~/Downloads/devop.pem ubuntu@3.82.21.208 'cd /bolha-devops/.github/workflows && git pull origin main'
+            # Conecta-se ao Bastion Host
+            echo "Conectado ao Bastion Host"
 
+            # Conecta-se à Instância EC2 a partir do Bastion Host e realiza a implantação
+            ssh -i /path/to/private/key ubuntu@3.82.21.208 'cd /bolha-devops/.github/workflows && git pull origin main'
 
 
 
