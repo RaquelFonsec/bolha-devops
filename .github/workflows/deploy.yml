@@ -1,4 +1,4 @@
-name: Deploy Static Site
+name: Debug SSH Connection
 
 on:
   push:
@@ -6,10 +6,13 @@ on:
       - main
 
 jobs:
-  deploy:
+  debug_ssh:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Print Current Time
+        run: echo "Current time: $(date)"
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -17,6 +20,15 @@ jobs:
         run: |
           echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
+
+      - name: Print SSH Key
+        run: echo "SSH Key: ${{ secrets.SSH_PRIVATE_KEY }}"
+
+      - name: Test SSH Connection
+        run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@54.90.91.237 "echo 'SSH connection successful'"
+
+      - name: Print Repository Contents
+        run: ls -l /bolha-devops/.github/workflows
 
       - name: SSH into EC2 Instance and Deploy
         uses: appleboy/ssh-action@master
