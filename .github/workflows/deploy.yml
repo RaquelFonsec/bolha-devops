@@ -1,4 +1,4 @@
-name: Implantar site estático
+name: SSH no Bastion Host e na Instância EC2 e Implantação
 
 on:
   push:
@@ -16,15 +16,15 @@ jobs:
       - name: SSH no Bastion Host e na Instância EC2 e Implantação
         uses: appleboy/ssh-action@master
         with:
-          host: 34.227.79.209
+          host: ${{ secrets.BASTION_HOST_IP }}
           username: ubuntu
           key: ${{ secrets.BASTION_HOST_SSH_KEY }}
           script: |
             # Conecta-se ao Bastion Host
             echo "Conectado ao Bastion Host"
 
-             ssh -i ~/.ssh/devop.pem ubuntu@3.82.21.208'cd /bolha-devops/.github/workflows && git pull origin main'
-
+            # Executa o comando SSH na instância EC2 a partir do Bastion Host para realizar o git pull
+            ssh -i ~/.ssh/devop.pem ubuntu@3.82.21.208 'cd /bolha-devops/.github/workflows && git pull origin main'
 
 
              
