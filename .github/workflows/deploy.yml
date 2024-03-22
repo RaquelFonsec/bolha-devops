@@ -1,4 +1,4 @@
-name: Deploy Static Site
+name: Deploy on Main Branch Change
 
 on:
   push:
@@ -24,11 +24,15 @@ jobs:
       - name: SSH into EC2 Instance and Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: 3.82.21.208
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ secrets.BASTION_HOST_IP }}  
+          username: ubuntu  
+          key: ${{ secrets.BASTION_HOST_SSH_KEY }}  
+          via: 3.82.21.208  
           script: |
-            cd /bolha-devops/.github/workflows
-            git pull origin main
-            # Adicione comandos adicionais aqui, como construir o projeto, reiniciar serviços, etc.
+        
+    ssh -i ~/Downloads/devop.pem ubuntu@3.82.21.208 'cd /bolha-devops/.github/workflows && git pull origin main'
 
+
+
+
+             
