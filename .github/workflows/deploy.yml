@@ -13,6 +13,7 @@ jobs:
       - name: Print Current Time
         run: echo "Current time: $(date)"
 
+      # Adicionamos um comentário para melhorar a legibilidade do arquivo YAML
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -39,4 +40,3 @@ jobs:
           script: |
             cd /bolha-devops/.github/workflows
             git pull origin main
-
